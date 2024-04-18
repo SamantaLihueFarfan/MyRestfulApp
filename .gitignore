@@ -1,0 +1,44 @@
+# .NET build artifacts
+bin/
+obj/
+
+# Visual Studio files
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+# NuGet packages
+*.nuget.props
+*.nuget.targets
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio Code
+.vscode/
+
+# Compiled files
+*.dll
+*.exe
+*.pdb
+*.dll.config
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Carpeta .vs
+.vs/
