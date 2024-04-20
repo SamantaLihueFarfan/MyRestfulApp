@@ -7,9 +7,5 @@
         /// </summary>
         public int id { get; set; }
 
-        /// <summary>
-        /// Apodo
-        /// </summary>
-        public string? nickname { get; set; }
     }
 }

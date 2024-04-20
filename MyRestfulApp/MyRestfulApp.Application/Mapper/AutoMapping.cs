@@ -16,7 +16,7 @@
             CreateMap<StatesDto, States>().ReverseMap();
             CreateMap<ProductDto, Product>().ReverseMap();
             CreateMap<PagingDto, Paging>().ReverseMap();
-            CreateMap<ResultsDto, States>().ReverseMap();
+            CreateMap<ResultsDto, Results>().ReverseMap();
             CreateMap<SellerDto, Seller>().ReverseMap();
 
             #endregion

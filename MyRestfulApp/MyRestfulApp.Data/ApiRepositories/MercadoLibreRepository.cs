@@ -58,7 +58,7 @@
 
             var client = new RestClient(_settings.ApiMercadoLibre.ApiBaseUrl);
             var restRequest = new RestRequest(_settings.ApiMercadoLibre?.Product);
-            restRequest.AddHeader("search", term);
+            restRequest.AddParameter("q", term);
 
             var response = await client.ExecuteAsync(restRequest);
 

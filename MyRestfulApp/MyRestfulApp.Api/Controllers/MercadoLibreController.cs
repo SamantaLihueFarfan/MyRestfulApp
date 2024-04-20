@@ -31,7 +31,7 @@ namespace MyRestfulApp.Api.Controllers
         [HttpGet("busqueda/{TERMINO}")]
         public async Task<ObjectResult> GetProduct(string TERMINO)
         {
-            return Ok(await _mercadoLibreService.GetProduct(TERMINO));
+            return Ok(await _mercadoLibreService.GetProduct(TERMINO.ToLower()));
 
         }
     }
