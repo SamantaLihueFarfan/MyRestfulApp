@@ -9,7 +9,7 @@ namespace MyRestfulApp.Api.Controllers
     {
         private static readonly string[] CountriesUnauthorized = ["BR", "CO"];
         private const string ResponseUnauthorized = "error 401 unauthorized de http";
-        
+
         private readonly IMercadoLibreService _mercadoLibreService;
 
         public MercadoLibreController(IMercadoLibreService mercadoLibreService)
@@ -24,8 +24,15 @@ namespace MyRestfulApp.Api.Controllers
             {
                 return Unauthorized(ResponseUnauthorized);
             }
-            
+
             return Ok(await _mercadoLibreService.GetCountry(PAIS));
+        }
+
+        [HttpGet("busqueda/{TERMINO}")]
+        public async Task<ObjectResult> GetProduct(string TERMINO)
+        {
+            return Ok(await _mercadoLibreService.GetProduct(TERMINO));
+
         }
     }
 }

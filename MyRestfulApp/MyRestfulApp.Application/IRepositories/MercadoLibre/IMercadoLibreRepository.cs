@@ -15,5 +15,11 @@
         /// </summary>
         /// <returns></returns>
         public Task<Country?> GetCountry(string countryId);
+
+        /// <summary>
+        /// Consulta un Producto
+        /// </summary>
+        /// <returns></returns>
+        public Task<Product?> GetProduct(string term);
     }
 }

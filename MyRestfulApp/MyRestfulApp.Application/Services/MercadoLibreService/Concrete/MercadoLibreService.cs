@@ -3,6 +3,7 @@
     using Domain.Models.Entities.MercadoLibre;
     using DTOs.MercadoLibreDTOs;
     using DTOs.MercadoLibreDTOs.GetCountry;
+    using DTOs.MercadoLibreDTOs.GetProduct;
     using Interface;
     using AutoMapper;
     using IRepositories.MercadoLibre;
@@ -34,6 +35,17 @@
             }
 
             response.Country = _mapper.Map<CountryDto>(country);
+            return response;
+        }
+
+        public async Task<GetProductResponseDto?> GetProduct(string term)
+        {
+            var response = new GetProductResponseDto();
+            Product? product;
+
+            product = await _mercadoLibreRepository.GetProduct(term);
+
+            response.Product = _mapper.Map<ProductDto>(product);
             return response;
         }
     }
