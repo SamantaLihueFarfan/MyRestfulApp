@@ -1,6 +1,6 @@
 ﻿namespace MyRestfulApp.Application.IRepositories.MercadoLibre
 {
-    using MyRestfulApp.Domain.Models.Entities.MercadoLibre;
+    using Domain.Models.Entities.MercadoLibre;
 
     public interface IMercadoLibreRepository
     {

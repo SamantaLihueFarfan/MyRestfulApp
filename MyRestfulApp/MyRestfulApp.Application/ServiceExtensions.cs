@@ -4,6 +4,8 @@
     using Mapper;
     using Services.MercadoLibreService.Concrete;
     using Services.MercadoLibreService.Interface;
+    using MyRestfulApp.Application.Services.MyRestfulAppService.Interface;
+    using MyRestfulApp.Application.Services.MyRestfulAppService.Concrete;
 
     public static class ServiceExtensions
     {
@@ -11,6 +13,7 @@
         {
             services.AddAutoMapper(typeof(AutoMapping));
             services.AddScoped<IMercadoLibreService, MercadoLibreService>();
+            services.AddScoped<IMyRestfulAppService, MyRestfulAppService>();
         }
     }
 }

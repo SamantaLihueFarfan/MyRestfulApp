@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using MyRestfulApp.Application;
 using MyRestfulApp.Data;
 using MyRestfulApp.Data.Settings;
+using MyRestfulApp.Domain.Models.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("config/appsettings.json");
@@ -17,6 +19,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.ConfigureApplication();
 builder.Services.ConfigurePersistence();
+
+
+// Registramos el DB Context
+builder.Services.AddDbContext<MyRestfulAppDB>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

@@ -3,6 +3,8 @@
     using AutoMapper;
     using DTOs.MercadoLibreDTOs;
     using Domain.Models.Entities.MercadoLibre;
+    using MyRestfulApp.Application.DTOs.MyRestfulAppDTOs.SaveUser;
+    using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.SaveUser;
 
     public class AutoMapping : Profile
     {
@@ -18,6 +20,7 @@
             CreateMap<PagingDto, Paging>().ReverseMap();
             CreateMap<ResultsDto, Results>().ReverseMap();
             CreateMap<SellerDto, Seller>().ReverseMap();
+            CreateMap<SaveUserRequestDto, SaveUserRequest>().ReverseMap();
 
             #endregion
         }
