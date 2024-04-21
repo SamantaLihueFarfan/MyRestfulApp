@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.DeleteUser;
-using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.GetUser;
-using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.GetUsers;
-
-namespace MyRestfulApp.Data.ApiRepositories
+﻿namespace MyRestfulApp.Data.ApiRepositories
 {
+    using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.GetUsers;
+    using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.DeleteUser;
+    using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.GetUser;
     using Domain.Models.Contexts;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -151,7 +149,7 @@ namespace MyRestfulApp.Data.ApiRepositories
                     existUser.Apellido = request.Apellido;
                     existUser.Email = request.Email;
                     existUser.Password = request.Password;
-                    
+
                     response.UpdateUser = existUser;
 
                     await _context.SaveChangesAsync();
@@ -160,9 +158,7 @@ namespace MyRestfulApp.Data.ApiRepositories
                 {
                     response.Message = MessageUpdateUser;
                     response.Errors = new List<string>() { string.Empty };
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -194,24 +190,24 @@ namespace MyRestfulApp.Data.ApiRepositories
                     response.Errors.Add(ex.Message);
                 }
             }
-            
+
             return response;
         }
-        
+
         public async Task<GetUserResponse> GetUser(GetUserRequest? request)
         {
             var response = new GetUserResponse();
 
             try
             {
-                if (request?.Id is null )
+                if (request?.Id is null)
                 {
                     response.Message = EmptyRequestErrorMessage;
                     response.Errors = new List<string>() { string.Empty };
 
                     return response;
                 }
-                
+
                 response.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
             }
             catch (Exception ex)
@@ -223,7 +219,7 @@ namespace MyRestfulApp.Data.ApiRepositories
                     response.Errors.Add(ex.Message);
                 }
             }
-            
+
             return response;
         }
     }

@@ -28,7 +28,9 @@
             CreateMap<PagingDto, Paging>().ReverseMap();
             CreateMap<ResultsDto, Results>().ReverseMap();
             CreateMap<SellerDto, Seller>().ReverseMap();
-
+            CreateMap<CurrencyConversionDto, CurrencyConversion>().ReverseMap();
+            CreateMap<CurrencyDto, Currency>().ReverseMap();
+            
             #endregion
 
             #region MyRestfulApp
