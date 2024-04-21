@@ -1,4 +1,8 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
+using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.DeleteUser;
+using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.GetUser;
+using MyRestfulApp.Domain.Models.Entities.MyRestfulApp.GetUsers;
+
 namespace MyRestfulApp.Data.ApiRepositories
 {
     using Domain.Models.Contexts;
@@ -12,6 +16,7 @@ namespace MyRestfulApp.Data.ApiRepositories
     public class MyRestfulAppRepository : IMyRestfulAppRepository
     {
         private const string _emptyRequestErrorMessage = "El request es null";
+        private const string MessageDeleteUser = "No se encontro el usuario a Eliminar";
         private readonly MyRestfulAppDB _context;
 
         public MyRestfulAppRepository(MyRestfulAppDB context)
@@ -80,6 +85,48 @@ namespace MyRestfulApp.Data.ApiRepositories
             return response;
         }
 
+        public async Task<DeleteUserResponse> DeleteUser(DeleteUserRequest? request)
+        {
+            var response = new DeleteUserResponse();
+
+            try
+            {
+                if (request?.Id is null)
+                {
+                    response.Message = _emptyRequestErrorMessage;
+                    response.Errors = new List<string>() { string.Empty };
+
+                    return response;
+                }
+
+                var deleteUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
+
+                if (deleteUser is null)
+                {
+                    response.Message = MessageDeleteUser;
+                    response.Errors = new List<string>() { string.Empty };
+                }
+                else
+                {
+                    response.DeletedUser = deleteUser;
+                    _context.Users.Remove(deleteUser);
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Errors = new List<string>() { ex.Message };
+                while (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                    response.Errors.Add(ex.Message);
+                }
+            }
+
+            return response;
+        }
+
         public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest? request)
         {
             var response = new UpdateUserResponse();
@@ -122,9 +169,54 @@ namespace MyRestfulApp.Data.ApiRepositories
             return response;
         }
 
-        public async Task<List<User>?> GetUsers()
+        public async Task<GetUsersResponse> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var response = new GetUsersResponse();
+
+            try
+            {
+                response.Users = await _context.Users.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                response.Errors = new List<string>() { ex.Message };
+                while (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                    response.Errors.Add(ex.Message);
+                }
+            }
+            
+            return response;
+        }
+        
+        public async Task<GetUserResponse> GetUser(GetUserRequest? request)
+        {
+            var response = new GetUserResponse();
+
+            try
+            {
+                if (request?.Id is null )
+                {
+                    response.Message = _emptyRequestErrorMessage;
+                    response.Errors = new List<string>() { string.Empty };
+
+                    return response;
+                }
+                
+                response.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
+            }
+            catch (Exception ex)
+            {
+                response.Errors = new List<string>() { ex.Message };
+                while (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                    response.Errors.Add(ex.Message);
+                }
+            }
+            
+            return response;
         }
     }
 }
