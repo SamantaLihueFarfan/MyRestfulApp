@@ -37,30 +37,38 @@ namespace MyRestfulApp.Api.Controllers
         }
 
         [HttpGet("DownloaderCurrenciesConversionJSON")]
-        public async Task<FileResult> DownloaderCurrenciesConversionJson()
+        public async Task<IActionResult> DownloaderCurrenciesConversionJson()
         {
             var result = await _mercadoLibreService.GetCurrenciesConversion();
+            
+            if (!result.IsValid)
+            {
+                return Conflict(result);
+            }
+            
             var jsonContentRequestString = JsonConvert.SerializeObject(result);
 
             return File(Encoding.UTF8.GetBytes(jsonContentRequestString), "application/json", "CurrenciesConversion.json");
         }
 
         [HttpGet("DownloaderCurrenciesConversionCSV")]
-        public async Task<FileResult> DownloaderCurrenciesConversionCsv()
+        public async Task<IActionResult> DownloaderCurrenciesConversionCsv()
         {
             var result = await _mercadoLibreService.GetCurrenciesConversion();
 
+            if (result is null || !result.IsValid)
+            {
+                return Conflict(result);
+            }
+            
             var sb = new StringBuilder();
             sb.Append("Descripcion, Conversion de Moneda");
             sb.Append("\r\n");
-
-            if (result is not null)
+            
+            foreach (var currencyConversion in result.currency_conversions)
             {
-                foreach (var currencyConversion in result.currency_conversions)
-                {
-                    sb.Append(string.Concat(currencyConversion.Description, ",", currencyConversion.ToDolar?.ratio));
-                    sb.Append("\r\n");
-                }
+                sb.Append(string.Concat(currencyConversion.Description, ",", currencyConversion.ToDolar?.ratio));
+                sb.Append("\r\n");
             }
 
             return File(Encoding.UTF8.GetBytes(sb.ToString()), "text/csv", "CurrenciesConversion.csv");

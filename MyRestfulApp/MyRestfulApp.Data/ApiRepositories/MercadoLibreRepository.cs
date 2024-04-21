@@ -2,8 +2,8 @@
 {
     using Domain.Models.Entities.MercadoLibre;
     using Application.IRepositories.MercadoLibre;
-    using System.Text.Json; // revisar para que sirve
-    using RestSharp; // revisar para que sirve
+    using System.Text.Json;
+    using RestSharp;
     using Microsoft.Extensions.Options;
     using Settings;
 
@@ -14,7 +14,7 @@
 
         public MercadoLibreRepository(IOptions<Settings>? options)
         {
-            _settings = options?.Value; //revisar para qué sirve
+            _settings = options?.Value;
         }
 
         public async Task<IEnumerable<Country>?> GetCountries()
