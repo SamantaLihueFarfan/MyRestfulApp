@@ -3,7 +3,7 @@
     /// <summary>
     /// DTO del response del método GetProduct
     /// </summary>
-    public class GetProductResponseDto
+    public class GetProductResponseDto : BaseResponseDto
     {
         /// <summary>
         /// Product

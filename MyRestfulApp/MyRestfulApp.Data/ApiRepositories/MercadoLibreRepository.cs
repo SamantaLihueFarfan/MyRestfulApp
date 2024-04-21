@@ -9,11 +9,12 @@
 
     public class MercadoLibreRepository : IMercadoLibreRepository
     {
+        private const string To = "USD";
         private readonly Settings? _settings;
 
         public MercadoLibreRepository(IOptions<Settings>? options)
         {
-            _settings = options?.Value; //revisar para que sirve
+            _settings = options?.Value; //revisar para qué sirve
         }
 
         public async Task<IEnumerable<Country>?> GetCountries()
@@ -63,6 +64,41 @@
             var response = await client.ExecuteAsync(restRequest);
 
             return response.Content == null ? null : JsonSerializer.Deserialize<Product>(response.Content);
+        }
+
+        public async Task<IEnumerable<Currency?>?> GetCurrencies()
+        {
+            if (_settings is null || string.IsNullOrWhiteSpace(_settings.ApiMercadoLibre?.ApiBaseUrl)
+                                  || string.IsNullOrWhiteSpace(_settings.ApiMercadoLibre?.Currencies))
+            {
+                return null;
+            }
+
+            var client = new RestClient(_settings.ApiMercadoLibre.ApiBaseUrl);
+            var restRequest = new RestRequest(_settings.ApiMercadoLibre?.Currencies);
+
+            var response = await client.ExecuteAsync(restRequest);
+
+            return response.Content == null ? null : JsonSerializer.Deserialize<IEnumerable<Currency>>(response.Content);
+        }
+
+        public async Task<CurrencyConversion?> GetCurrenciesConversions(string? from)
+        {
+            if (_settings is null || string.IsNullOrWhiteSpace(_settings.ApiMercadoLibre?.ApiBaseUrl)
+                                  || string.IsNullOrWhiteSpace(_settings.ApiMercadoLibre?.CurrencyConversion))
+            {
+                return null;
+            }
+
+            var client = new RestClient(_settings.ApiMercadoLibre.ApiBaseUrl);
+            var restRequest = new RestRequest(_settings.ApiMercadoLibre?.CurrencyConversion);
+
+            restRequest.AddParameter("from", from);
+            restRequest.AddParameter("to", To);
+
+            var response = await client.ExecuteAsync(restRequest);
+
+            return response.Content == null ? null : JsonSerializer.Deserialize<CurrencyConversion>(response.Content);
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// DTO del response del método GetCountry
     /// </summary>
-    public class GetCountryResponseDto
+    public class GetCountryResponseDto : BaseResponseDto
     {
         /// <summary>
         /// Pais

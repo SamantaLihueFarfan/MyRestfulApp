@@ -1,5 +1,6 @@
 ﻿namespace MyRestfulApp.Application.Services.MercadoLibreService.Interface
 {
+    using DTOs.MercadoLibreDTOs.GetCurrenciesConversion;
     using DTOs.MercadoLibreDTOs.GetCountry;
     using DTOs.MercadoLibreDTOs.GetProduct;
 
@@ -11,6 +12,12 @@
         /// <returns></returns>
         public Task<GetCountryResponseDto?> GetCountry(string countryId);
 
-        public Task<GetProductResponseDto> GetProduct(string term);
+        public Task<GetProductResponseDto?> GetProduct(string term);
+
+        /// <summary>
+        /// Consulta una Lista de Monedas con su conversion a Dolar
+        /// </summary>
+        /// <returns></returns>
+        public Task<GetCurrenciesConversionDto?> GetCurrenciesConversion();
     }
 }

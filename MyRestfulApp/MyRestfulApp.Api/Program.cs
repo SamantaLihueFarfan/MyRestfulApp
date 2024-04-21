@@ -14,16 +14,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Registramos el DB Context
+builder.Services.AddDbContext<MyRestfulAppDB>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Agrego las configuraciones personalizadas
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.ConfigureApplication();
 builder.Services.ConfigurePersistence();
-
-
-// Registramos el DB Context
-builder.Services.AddDbContext<MyRestfulAppDB>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -39,5 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseStaticFiles();
 
 app.Run();

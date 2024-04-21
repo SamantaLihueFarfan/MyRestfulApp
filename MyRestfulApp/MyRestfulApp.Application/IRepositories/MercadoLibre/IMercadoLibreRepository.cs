@@ -21,5 +21,17 @@
         /// </summary>
         /// <returns></returns>
         public Task<Product?> GetProduct(string term);
+
+        /// <summary>
+        /// Consulta una Lista de Monedas
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<Currency?>?> GetCurrencies();
+
+        /// <summary>
+        /// Consulta una Conversion de Moneda
+        /// </summary>
+        /// <returns></returns>
+        public Task<CurrencyConversion?> GetCurrenciesConversions(string? from);
     }
 }
