@@ -15,8 +15,9 @@ namespace MyRestfulApp.Data.ApiRepositories
 
     public class MyRestfulAppRepository : IMyRestfulAppRepository
     {
-        private const string _emptyRequestErrorMessage = "El request es null";
+        private const string EmptyRequestErrorMessage = "El request es null";
         private const string MessageDeleteUser = "No se encontro el usuario a Eliminar";
+        private const string MessageUpdateUser = "No se encontro el usuario a Modificar";
         private readonly MyRestfulAppDB _context;
 
         public MyRestfulAppRepository(MyRestfulAppDB context)
@@ -54,7 +55,7 @@ namespace MyRestfulApp.Data.ApiRepositories
                 if (request is null || string.IsNullOrEmpty(request.Nombre) || string.IsNullOrEmpty(request.Apellido)
                     || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
                 {
-                    response.Message = _emptyRequestErrorMessage;
+                    response.Message = EmptyRequestErrorMessage;
                     response.Errors = new List<string>() { string.Empty };
 
                     return response;
@@ -93,7 +94,7 @@ namespace MyRestfulApp.Data.ApiRepositories
             {
                 if (request?.Id is null)
                 {
-                    response.Message = _emptyRequestErrorMessage;
+                    response.Message = EmptyRequestErrorMessage;
                     response.Errors = new List<string>() { string.Empty };
 
                     return response;
@@ -136,7 +137,7 @@ namespace MyRestfulApp.Data.ApiRepositories
                 if (request is null || request.IdUser == 0 || string.IsNullOrEmpty(request.Nombre) ||
                     string.IsNullOrEmpty(request.Apellido) || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
                 {
-                    response.Message = _emptyRequestErrorMessage;
+                    response.Message = EmptyRequestErrorMessage;
                     response.Errors = new List<string>() { string.Empty };
 
                     return response;
@@ -150,11 +151,18 @@ namespace MyRestfulApp.Data.ApiRepositories
                     existUser.Apellido = request.Apellido;
                     existUser.Email = request.Email;
                     existUser.Password = request.Password;
+                    
+                    response.UpdateUser = existUser;
+
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    response.Message = MessageUpdateUser;
+                    response.Errors = new List<string>() { string.Empty };
+
                 }
 
-                response.UpdateUser = existUser;
-
-                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -198,7 +206,7 @@ namespace MyRestfulApp.Data.ApiRepositories
             {
                 if (request?.Id is null )
                 {
-                    response.Message = _emptyRequestErrorMessage;
+                    response.Message = EmptyRequestErrorMessage;
                     response.Errors = new List<string>() { string.Empty };
 
                     return response;

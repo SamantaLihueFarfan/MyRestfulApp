@@ -24,7 +24,7 @@
         /// Paginacion
         /// </summary>
         public Paging paging { get; set; }
-
+        
         /// <summary>
         /// Resultados
         /// </summary>
