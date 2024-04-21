@@ -1,6 +1,6 @@
-﻿namespace MyRestfulApp.Domain.Models.Entities.MyRestfulApp
+﻿namespace MyRestfulApp.Application.DTOs.MyRestfulAppDTOs
 {
-    public class User
+    public class UserDto
     {
         public int Id { get; set; }
 
